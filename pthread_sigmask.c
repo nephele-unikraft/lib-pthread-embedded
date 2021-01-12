@@ -19,11 +19,9 @@
  *      59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
  */
 
-#include <uk/print.h>
 #include <signal.h>
 
 int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset)
 {
-	WARN_STUBBED();
-	return 0;
+	return sigprocmask(how, set, oldset);
 }

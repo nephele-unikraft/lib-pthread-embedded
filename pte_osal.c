@@ -291,6 +291,11 @@ int pte_osThreadGetDefaultPriority(void)
 	return UK_THREAD_ATTR_PRIO_DEFAULT;
 }
 
+int pte_kill(pte_osThreadHandle h, int sig)
+{
+	return uk_thread_signal(h, sig);
+}
+
 /****************************************************************************
  *
  * Mutexes

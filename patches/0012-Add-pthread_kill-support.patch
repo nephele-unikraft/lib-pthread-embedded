@@ -1,0 +1,36 @@
+From 155b18e687d4f54e5fe57dc0721af385653d9ea3 Mon Sep 17 00:00:00 2001
+From: Mihai Pogonaru <pogonarumihai@gmail.com>
+Date: Tue, 12 Jan 2021 19:46:14 +0200
+Subject: [PATCH] Add pthread_kill support
+
+Signed-off-by: Mihai Pogonaru <pogonarumihai@gmail.com>
+Signed-off-by: Costin Lupu <costin.lupu@cs.pub.ro>
+---
+ pthread_kill.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/pthread_kill.c b/pthread_kill.c
+index 3a6daf6..f4a61be 100644
+--- a/pthread_kill.c
++++ b/pthread_kill.c
+@@ -47,7 +47,7 @@
+ #include "pthread.h"
+ #include "implement.h"
+ 
+-#ifdef __hermit__
++#ifdef __Unikraft__
+ int pte_kill(pte_osThreadHandle threadId, int sig);
+ #endif
+ 
+@@ -98,7 +98,7 @@ pthread_kill (pthread_t thread, int sig)
+ 
+   pte_osMutexUnlock(pte_thread_reuse_lock);
+ 
+-#ifdef __hermit__
++#ifdef __Unikraft__
+   result = pte_kill(tp->threadId, sig);
+ #else
+   if (0 == result && 0 != sig)
+-- 
+2.20.1
+

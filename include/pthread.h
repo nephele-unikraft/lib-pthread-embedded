@@ -22,6 +22,8 @@
 #ifndef __GLUE_PTHREAD_H__
 #define __GLUE_PTHREAD_H__
 
+#include <signal.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -60,6 +62,8 @@ int pthread_getname_np(pthread_t thread, char *name, size_t len);
 int pthread_condattr_getclock(const pthread_condattr_t *__restrict attr,
 		clockid_t *__restrict clock_id);
 int pthread_condattr_setclock(pthread_condattr_t *attr, clockid_t clock_id);
+
+int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset);
 
 #ifdef __cplusplus
 }
