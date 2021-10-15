@@ -1,0 +1,41 @@
+From 07fc46fcb7e6b1ee71d8da8ff8d5571a49c88489 Mon Sep 17 00:00:00 2001
+From: Costin Lupu <costin.lupu@cs.pub.ro>
+Date: Fri, 15 Oct 2021 17:48:21 +0300
+Subject: [PATCH] Make sem_open() variadic
+
+Signed-off-by: Costin Lupu <costin.lupu@cs.pub.ro>
+---
+ sem_open.c  | 2 +-
+ semaphore.h | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/sem_open.c b/sem_open.c
+index 14a9bf3..b2a2a4c 100644
+--- a/sem_open.c
++++ b/sem_open.c
+@@ -53,7 +53,7 @@
+ 
+ 
+ int
+-sem_open (const char *name, int oflag, mode_t mode, unsigned int value)
++sem_open (const char *name, int oflag, ...)
+ {
+   errno = ENOSYS;
+   return -1;
+diff --git a/semaphore.h b/semaphore.h
+index 08388fb..5d1f109 100644
+--- a/semaphore.h
++++ b/semaphore.h
+@@ -97,8 +97,7 @@ extern "C"
+ 
+     int sem_open (const char * name,
+                   int oflag,
+-                  mode_t mode,
+-                  unsigned int value);
++                  ...);
+ 
+     int sem_close (sem_t * sem);
+ 
+-- 
+2.20.1
+

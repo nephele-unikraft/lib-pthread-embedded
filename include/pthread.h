@@ -40,6 +40,16 @@ pthread_to_unsigned_long(pthread_t *t)
 	return *_t;
 }
 
+static inline pthread_t
+unsigned_long_to_pthread(unsigned long ul)
+{
+	pthread_t t;
+
+	t.p = (void *) ul;
+	t.x = 0;
+	return t;
+}
+
 int pthread_atfork(void (*prepare)(void),
 	void (*parent)(void), void (*child)(void));
 

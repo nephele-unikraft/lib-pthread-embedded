@@ -210,6 +210,7 @@ void pte_osThreadExit(void)
 pte_osResult pte_osThreadWaitForEnd(pte_osThreadHandle h)
 {
 	pte_thread_data_t *ptd = handle_to_ptd(h);
+#if 0
 	pte_thread_data_t *self_ptd = current_ptd();
 
 	while (1) {
@@ -224,6 +225,10 @@ pte_osResult pte_osThreadWaitForEnd(pte_osThreadHandle h)
 		else
 			uk_sched_yield();
 	}
+#else
+	uk_thread_wait(ptd->uk_thread);
+	return PTE_OS_OK;
+#endif
 }
 
 pte_osResult pte_osThreadCancel(pte_osThreadHandle h)
