@@ -192,6 +192,8 @@ pte_osResult pte_osThreadDelete(pte_osThreadHandle h)
 
 pte_osResult pte_osThreadExitAndDelete(pte_osThreadHandle h)
 {
+	uk_thread_detach(h);
+
 	if (h->sched)
 		uk_thread_kill(h);
 	pte_osThreadDelete(h);
@@ -435,11 +437,13 @@ pte_osResult pte_osSemaphoreCancellablePend(pte_osSemaphoreHandle h,
 	pte_thread_data_t *ptd = current_ptd();
 	pte_osResult result = PTE_OS_OK;
 	__nsec timeout = 0, start_time = ukplat_monotonic_clock();
+	int waiting;
 
 	if (ptimeout_msecs)
 		timeout = ukarch_time_msec_to_nsec(*ptimeout_msecs);
 
-	while (1) {
+	waiting = 1;
+	while (waiting) {
 		if (uk_semaphore_down_try(h))
 			/* semaphore is up */
 			break;
@@ -455,9 +459,15 @@ pte_osResult pte_osSemaphoreCancellablePend(pte_osSemaphoreHandle h,
 			result = PTE_OS_INTERRUPTED;
 			break;
 
-		} else
+		} else {
 			/* Maybe next time... */
+#if 0
 			uk_sched_yield();
+#else
+			uk_semaphore_down(h);
+			waiting = 0;
+#endif
+		}
 	}
 
 	return result;
